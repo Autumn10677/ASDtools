@@ -80,10 +80,11 @@ A separate tool generates the filling order according to Aufbau's principle...
 
 And another tool automatically calculates the ground-state electronic configuration for any element/ionization pair. This function can return an abbreviated electronic configuration, and can use two separate ordering schemas...
 ```
->>> asdt.find_electronic_config("Ni III", abbreviate=True, sortby="fill order")
+>>> asdt.find_electronic_config("O I", abbreviate=True, sortby="fill order")
 
-'[Ar]4s2.3d6'
+'[He]2s2.2p4'
 ```
+__NOTE:__ The current version of __ASDtools__ does not take into account a handful of notable exceptions to the filling order outlined above. I plan on fixing this in a future iteration.
 
 ### 3. Calculate All Possible Term Symbols
 
