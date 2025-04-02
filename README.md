@@ -2,9 +2,7 @@
 
 This package relies heavily on __[astroquery.nist](https://astroquery.readthedocs.io/en/latest/nist/nist.html)__'s querying capabilities for loading spectral data for a given element over a range of wavelengths. The main advantage of __ASDtools__ is its ability to format astroquery's default output into a formatted DataFrame. Additionally, I have made a handful of helpful tools for visualizing several pieces of the NIST ASD. This __ASDtools__'s primary goal is to help users understand and visualize standard conventions in atomic spectroscopy.
 
-__NOTE 1:__ The default __astroquery.nist__ output for heavy elements w/o a given ionization will sometimes let the Roman numerals for a given element bleed into surrounding columns. I am unsure if this is an issue with my local installation, but I plan to test it more in the coming weeks. To query all elements and ionizations, you should query one independently.
-
-__NOTE 2:__ As of writing (March 31, 2025), __[reports have surfaced that the NIST ASD is expected to go offline](https://www.wired.com/story/nist-doge-layoffs-atomic-spectroscopy/)__. If the database is unavailable for querying, compressed files containing the entire database have been saved and uploaded to this GitHub repository. I will modify the behavior of __ASDtools__ to use this data as a backup.
+__NOTE:__ As of writing (March 31, 2025), __[reports have surfaced that the NIST ASD is expected to go offline](https://www.wired.com/story/nist-doge-layoffs-atomic-spectroscopy/)__. If the database is unavailable for querying, compressed files containing the entire database have been saved and uploaded to this GitHub repository. I will modify the behavior of __ASDtools__ to use this data as a backup.
 
 ## ___Installation___
 __ASDtools__'s dependencies are...
@@ -30,7 +28,7 @@ $ python pip install ASDtools
 ```
 
 ## ___Basic Usage (How to Query)___
-Since __ASDtools__ uses __astroquery.nist__ to pull its data, it takes the same arguments. However, __ASDtools__ uses a class-based data structure to store and modify NIST ASD data. You must create a new "NIST_lines" instance to initialize a query. This initialization takes the same arguments as __astroquery.nist__ (w/ two additional parameters we will discuss later)...
+Since __ASDtools__ uses __astroquery.nist__ to pull its data, it takes the same arguments. However, __ASDtools__ uses a class-based data structure to store and modify NIST ASD data. You must create a new "NIST_lines" instance to initialize a query. This initialization takes the same arguments as __astroquery.nist__...
 
 ```
 >>> import ASDtools as asdt
@@ -67,11 +65,13 @@ Meaning: Blended with another line that may affect the wavelength and intensity.
 
 ### 2. Produce Ground-State Electronic Configurations
 
-To help understand the way NIST's ASD formats electronic configurations, I made a handful of functions that explain what electronic configurations are. One tool automatically draws an Aufbau diagram to visually-demonstrate the filling order of subshells...
+To help understand the way NIST's ASD formats electronic configurations, I made a handful of functions that explain what electronic configurations are. One tool automatically draws an __[Aufbau diagram](https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory\_Chemistry\_(CK-12)/05%3A\_Electrons\_in\_Atoms/5.15%3A\_Aufbau\_Principle)__ to visually-demonstrate the filling order of subshells...
 ```
 >>> asdt.draw_aufbau_diagram(N_max=5)
 ```
-Another tool generates the filling order according to Aufbau's principle...
+![image info](./sample_images/aufbau_diagram_up_to_5.png)
+
+A separate tool generates the filling order according to Aufbau's principle...
 ```
 >>> asdt.find_filling_order(max_level=5, joined=True)
 
@@ -87,12 +87,12 @@ And another tool automatically calculates the ground-state electronic configurat
 
 ### 3. Calculate All Possible Term Symbols
 
-The NIST ASD provides a handful of term symbols, each with a slightly different meaning. The following function calculated all possible term symbols for a given element/ionization pair...
+The NIST ASD provides a handful of term symbols, each with a slightly different meaning. For many elements, a single term symbol is given to represent the entire electronic configuration. In other cases (particularly for heavier elements), term symbols are provided for smaller chunks of an electronic configuration. The following function calculated all possible term symbols for a given element/ionization pair...
 ```
 >>> config = asdt.find_electronic_config("Ni I")
 >>> asdt.generate_term_symbols(config)
 ```
-These term symbols are displayed using LaTeX formatting. These match NIST's ASD for lines that assume an LS-coupling scheme. A term symbol function for other schemes is not available yet.
+These term symbols are displayed using LaTeX formatting. These match NIST's ASD for lines that assume an LS-coupling scheme. A term symbol function for other schemes is not available yet. The methodology used to calculate term symbols follows **[this Wikipedia article](https://en.wikipedia.org/wiki/Term_symbol#Term_symbol_parity)** pretty closely.
 
 ### 4. Draw Grotrian Diagrams
 
@@ -100,3 +100,4 @@ Finally, ASDtools can draw a Grotrian diagram (a.k.a., energy level diagram) for
 ```
 >>> asdt.draw_grotrian_diagram("H I")
 ```
+![image info](./sample_images/H_I_grotrian_diagram.png)
