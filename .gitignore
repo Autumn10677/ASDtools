@@ -1,0 +1,42 @@
+# Ignore Anaconda virtual environments
+env/
+.conda/
+.condarc
+.conda_lock/
+
+# Ignore Python build artifacts
+*.egg-info/
+build/
+dist/
+
+# Byte-compiled and cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints (if applicable)
+.ipynb_checkpoints/
+
+# Logs and databases
+*.log
+*.sqlite
+
+# IDE settings (VS Code, PyCharm)
+.vscode/
+.idea/
+
+# Coverage and testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Pip and MyPy caches
+pip-wheel-metadata/
+.mypy_cache/
+
+# C extension build artifacts (if any)
+*.so
+
+# Local environment variables
+.env
+*.env

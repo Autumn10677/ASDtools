@@ -285,7 +285,10 @@ class NIST_lines():
         reject_acc = acc_grades[-(len(acc_grades) - acc_grades.index(min_acc)-1):]
         self.df = self.df[~self.df['Acc.'].isin(reject_acc)]
 
-def draw_aufbau_diagram(N_max=6):
+def draw_aufbau_diagram(N_max=6, 
+                        save=False, 
+                        save_dir="", 
+                        filename=""):
 
     """
     Draws the Aufbau diagram corresponding to
@@ -296,6 +299,15 @@ def draw_aufbau_diagram(N_max=6):
     N_max :: int
         Max principal quantum number that should be
         drawn on the diagram.
+    save :: bool
+        Indicates whether the Grotrian diagram
+        should be saved.
+    save_dir :: str
+        Tells the function where to save the
+        Grotrian diagram.
+    filename :: str
+        The name the image will be saved at.
+        This string must end with ".png".
     """
     
     ### Defines orbitals (up to a practical limit)
@@ -329,6 +341,22 @@ def draw_aufbau_diagram(N_max=6):
     plt.title(f"Aufbau Diagram (up to n={N_max})")
     plt.xlabel(rf"Angular Momentum Number ($\ell$)")
     plt.ylabel(rf"Principal Quantum Number ($n$)")
+    plt.tight_layout()
+    
+    ### Runs if diagram should be saved
+    if save:
+
+        ### Filename handling
+        if filename == "":
+            filename = f"aufbau_diagram_up_to_{N_max}.png"
+        if ".png" not in filename:
+            print("Invalid filename, please add '.png'")
+            save=False
+
+        ### If filename is valid, save diagram
+        if save:
+            plt.savefig(os.path.join(save_dir, filename))
+    
     plt.show()
 
 def find_filling_order(max_level=5, joined=False):
@@ -785,7 +813,10 @@ def draw_grotrian_diagram(element,
                           min_multiplicity = 1,
                           max_multiplicity = 10,
                           min_letter = "S",
-                          max_letter = "L"):
+                          max_letter = "L",
+                          save = False,
+                          save_dir = "",
+                          filename = ""):
 
     """
     Queries the NIST ASD for transitions
@@ -824,6 +855,15 @@ def draw_grotrian_diagram(element,
         Maximum letter (L) to plot on the
         Grotrian diagram. If an invalid letter
         is provided, it is ignored.
+    save :: bool
+        Indicates whether the Grotrian diagram
+        should be saved.
+    save_dir :: str
+        Tells the function where to save the
+        Grotrian diagram.
+    filename :: str
+        The name the image will be saved at.
+        This string must end with ".png".
     """
     
     ### Queries NIST ASD for data
@@ -923,4 +963,20 @@ def draw_grotrian_diagram(element,
     ax.set_xticklabels([i for i in possible_terms if i!="IGNORE"])
     ax.legend(title="Transition Type", shadow=True, edgecolor='k')
     ax.set_ylabel("Level Energy (eV)")
+    fig.tight_layout()
+
+    ### Runs if diagram should be saved
+    if save:
+
+        ### Filename handling
+        if filename == "":
+            filename = f"{element.replace(" ", "_")}_grotrian_diagram.png"
+        if ".png" not in filename:
+            print("Invalid filename, please add '.png'")
+            save=False
+
+        ### If filename is valid, save diagram
+        if save:
+            plt.savefig(os.path.join(save_dir, filename))
+    
     plt.show()
