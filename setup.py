@@ -5,7 +5,7 @@ with open("README_no_images.md", "r") as f:
 
 setup(
     name='ASDtools',
-    version='0.1.0',
+    version='0.3.0',
     author='Autumn Stephens',
     author_email='aust8150@colorado.edu',
     packages=['ASDtools'],

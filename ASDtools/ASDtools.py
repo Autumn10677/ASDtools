@@ -970,7 +970,7 @@ def draw_grotrian_diagram(element,
 
         ### Filename handling
         if filename == "":
-            filename = f"{element.replace(" ", "_")}_grotrian_diagram.png"
+            filename = f"{element.replace(' ', '_')}_grotrian_diagram.png"
         if ".png" not in filename:
             print("Invalid filename, please add '.png'")
             save=False
