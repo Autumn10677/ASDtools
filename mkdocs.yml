@@ -1,0 +1,36 @@
+site_name: ASDtools
+site_url: https://Autumn10677.github.com/ASDtools
+
+nav:
+  - Home: index.md
+  - Basic Usage:
+    - How to Query: query.ipynb
+    - Understanding the DataFrame: flags.ipynb
+  - Additional Tools:
+    - Electron Configuration: filling.ipynb
+    - Term Symbols: terms.ipynb
+    - Grotrian Diagrams: grotrian.ipynb
+
+theme:
+  name: "material"
+  features:
+      - navigation.tracking
+
+repo_url: https://github.com/Autumn10677/ASDtools
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      kernel_name: python3
+      execute : True
+      include_source : True
+
+markdown_extensions:
+    - toc:
+        permalink: "#"
+    - pymdownx.arithmatex:
+        generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

@@ -45,4 +45,6 @@ pip-wheel-metadata/
 .DS_Store
 
 # README for PyPi.org
-README_no_images.md
+README_no_images.mdsite/
+
+site/

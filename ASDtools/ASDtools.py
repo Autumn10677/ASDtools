@@ -75,7 +75,13 @@ tran_types = {
 
 class NIST_lines():
 
-    def __init__(self, elements, lower_wavelength=0*u.AA, upper_wavelength=1e7*u.AA, keep_flag_columns=False, keep_original_columns=False):
+    def __init__(self, 
+                 elements, 
+                 lower_wavelength=0*u.AA, 
+                 upper_wavelength=1e7*u.AA, 
+                 keep_flag_columns=False, 
+                 keep_original_columns=False,
+                 update=True):
 
         def custom_formatwarning(message, category, filename, lineno, file=None, line=None):
             return f'{message}\n'
@@ -105,6 +111,7 @@ class NIST_lines():
         self.df_raw = None
         self.keep_cols = ["Element", "Observed", "Ritz", "Type", "Rel.", "Ei (eV)", "Ek (eV)", 
                           "Aki", "gi", "gk", "S", "Acc.", "Lower level", "Upper level"]
+        self.update = update
         self.fetch_lines()
 
     ### Retrieves lines for the specified element
@@ -118,7 +125,7 @@ class NIST_lines():
         warnings.simplefilter("ignore", category=FutureWarning)
         
         ### Iterates over each element/ionization provided by the user
-        for element in tqdm(self.elements, desc='Loading NIST ASD Data'):
+        for element in tqdm(self.elements, desc='Loading NIST ASD Data', disable=not self.update):
 
             ### Attempts to load NIST ASD data and store it in a DataFrame
             try:
@@ -169,7 +176,10 @@ class NIST_lines():
             self.df = self.df.drop(columns=["gi   gk"])
 
             ### Removes flags and converts columns to floats
-            for col in tqdm(["Rel.", "Observed", "Ritz", "Aki", "Ei (eV)", "Ek (eV)", "gi", "gk"], desc="Filtering out flags"):
+            for col in tqdm(["Rel.", "Observed", "Ritz", "Aki", "Ei (eV)", "Ek (eV)", "gi", "gk"], 
+                            desc="Filtering out flags", 
+                            disable=not self.update):
+                
                 self.extract_flags(colname=col)
                 self.df[col] = self.df[col].astype(float)
 
@@ -816,7 +826,8 @@ def draw_grotrian_diagram(element,
                           max_letter = "L",
                           save = False,
                           save_dir = "",
-                          filename = ""):
+                          filename = "",
+                          update=False):
 
     """
     Queries the NIST ASD for transitions
@@ -867,7 +878,7 @@ def draw_grotrian_diagram(element,
     """
     
     ### Queries NIST ASD for data
-    lines = NIST_lines(element, lower_wavelength=lower_wavelength, upper_wavelength=upper_wavelength)
+    lines = NIST_lines(element, lower_wavelength=lower_wavelength, upper_wavelength=upper_wavelength, update=update)
 
     ### Defines the drawing color and styles of various transitions
     type_styles = {"E1": ["black", "solid"], 
