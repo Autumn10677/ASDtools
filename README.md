@@ -1,3 +1,5 @@
+Please check out the [documentation page](https://Autumn10677.github.io/ASDtools/)!
+
 ## ___About ASDtools___
 
 This package relies heavily on __[astroquery.nist](https://astroquery.readthedocs.io/en/latest/nist/nist.html)__'s querying capabilities for loading spectral data for a given element over a range of wavelengths. The main advantage of __ASDtools__ is its ability to format astroquery's default output into a formatted DataFrame. Additionally, I have made a handful of helpful tools for visualizing several pieces of the NIST ASD. This __ASDtools__'s primary goal is to help users understand and visualize standard conventions in atomic spectroscopy.
